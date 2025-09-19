@@ -268,8 +268,12 @@ if __name__ == "__main__":
     os.makedirs("static", exist_ok=True)
     os.makedirs("templates", exist_ok=True)
     
+    # Get port from environment variable (for deployment) or use 8000 (for local)
+    port = int(os.getenv("PORT", 8000))
+    host = os.getenv("HOST", "0.0.0.0")
+    
     print("Starting MongoDB Image Search API...")
     print(f"Total images in database: {len(search_service.image_metadata)}")
-    print("Server will be available at: http://localhost:8000")
+    print(f"Server will be available at: http://{host}:{port}")
     
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=host, port=port)
